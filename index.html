@@ -1135,6 +1135,157 @@
       .cat-overview__grid { grid-template-columns: 1fr 1fr; }
       .cat-overview__grid .cat-card:last-child { grid-column: span 1; }
     }
+
+    /* ============================================================
+       UNIFIED IMAGE SYSTEM
+       Single art-direction layer for every content photo so
+       mixed-source images feel like one brand world.
+    ============================================================ */
+    .cat-card__img-wrap img,
+    .cat-gallery__item img,
+    .ba-compare__slot img {
+      /* Subtle tone normalization — nudges mixed-source photos toward
+         the same cool-bright space: less saturation, a touch more
+         contrast, a tiny brightness lift. */
+      filter: saturate(0.92) contrast(1.04) brightness(1.02);
+    }
+    /* Same rounded corners across all image containers */
+    .cat-card__img-wrap,
+    .cat-gallery__item {
+      border-radius: 16px;
+    }
+    /* Convert overview card from fixed height to aspect-ratio for consistent framing */
+    .cat-card__img-wrap {
+      height: auto;
+      aspect-ratio: 4/3;
+    }
+
+    /* ============================================================
+       BEFORE / AFTER COMPARISON BLOCK
+    ============================================================ */
+    .ba {
+      padding: 110px 24px;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(232,84,26,0.05), transparent 60%),
+        linear-gradient(180deg, var(--bg-light) 0%, #ffffff 100%);
+    }
+    .ba__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .ba__tag {
+      display: inline-block;
+      background: rgba(232,84,26,0.1);
+      color: var(--orange);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border-radius: 999px;
+      margin-bottom: 22px;
+    }
+    .ba__title {
+      font-size: clamp(1.9rem, 4.8vw, 2.9rem);
+      font-weight: 900;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin: 0 0 16px;
+    }
+    .ba__copy {
+      font-size: 1.05rem;
+      color: #5a6a80;
+      line-height: 1.65;
+      max-width: 620px;
+      margin: 0 auto 52px;
+    }
+    .ba-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .ba-compare__slot {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      box-shadow: 0 18px 48px rgba(13,31,53,0.18);
+      background: #c8d4e8;
+    }
+    .ba-compare__slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .ba-compare__slot:hover img {
+      transform: scale(1.04);
+    }
+    /* Vignette overlay for label legibility */
+    .ba-compare__slot::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 45%, rgba(13,31,53,0.65) 100%);
+      pointer-events: none;
+    }
+    .ba-compare__label {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fff;
+      background: rgba(13,31,53,0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 10px 16px;
+      border-radius: 999px;
+    }
+    .ba-compare__label-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #e85419;
+      box-shadow: 0 0 0 3px rgba(232,84,26,0.3);
+    }
+    .ba-compare__slot--after .ba-compare__label-dot {
+      background: #2ecc71;
+      box-shadow: 0 0 0 3px rgba(46,204,113,0.3);
+    }
+    .ba-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--orange);
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 800;
+      padding: 18px 38px;
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 14px 40px rgba(232,84,26,0.35);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .ba-cta:hover {
+      background: var(--orange-light);
+      transform: translateY(-2px);
+    }
+    @media (max-width: 700px) {
+      .ba { padding: 72px 20px; }
+      .ba-compare { grid-template-columns: 1fr; gap: 16px; }
+      .ba-compare__slot { aspect-ratio: 4/3; }
+    }
   </style>
 </head>
 <body>
@@ -1386,7 +1537,7 @@
       <div class="cat-overview__grid">
         <a href="#slip-protection" class="cat-card fade-up stagger-1">
           <div class="cat-card__img-wrap">
-            <img src="images/slip-wetdrain.jpg" alt="Wet tile bathroom floor with drain" loading="lazy">
+            <img src="images/slip-wetdrain.jpg" alt="Close-up of modern non-slip shower floor" loading="lazy">
           </div>
           <div class="cat-card__body">
             <span class="cat-card__icon">🛡️</span>
@@ -1397,7 +1548,7 @@
 
         <a href="#grab-bars" class="cat-card fade-up stagger-2">
           <div class="cat-card__img-wrap">
-            <img src="images/grab-vanity.jpg" alt="Modern vanity with support fixtures" loading="lazy">
+            <img src="images/grab-wallfixture.jpg" alt="Horizontal grab bar mounted on white bathroom tile" loading="lazy">
           </div>
           <div class="cat-card__body">
             <span class="cat-card__icon">🔩</span>
@@ -1408,7 +1559,7 @@
 
         <a href="#lighting" class="cat-card fade-up stagger-3">
           <div class="cat-card__img-wrap">
-            <img src="images/light-modern.jpg" alt="Modern bathroom with LED lighting" loading="lazy">
+            <img src="images/light-modern.jpg" alt="Bright modern bathroom with LED mirror" loading="lazy">
           </div>
           <div class="cat-card__body">
             <span class="cat-card__icon">💡</span>
@@ -1467,15 +1618,15 @@
 
         <div class="cat-gallery fade-up stagger-2">
           <div class="cat-gallery__item cat-gallery__item--wide">
-            <img src="images/slip-warning.jpg" alt="Slippery floor warning sign on tile" loading="lazy">
-            <div class="cat-gallery__caption">Anti-slip tile treatment</div>
+            <img src="images/slip-warning.jpg" alt="Close-up of anti-slip bathroom tile texture" loading="lazy">
+            <div class="cat-gallery__caption">Anti-slip surface detail</div>
           </div>
           <div class="cat-gallery__item">
-            <img src="images/slip-wetdrain.jpg" alt="Wet tile shower floor with drain" loading="lazy">
-            <div class="cat-gallery__caption">Shower grip coating</div>
+            <img src="images/slip-wetdrain.jpg" alt="Modern linear shower drain and tile floor" loading="lazy">
+            <div class="cat-gallery__caption">Shower drainage &amp; grip</div>
           </div>
           <div class="cat-gallery__item">
-            <img src="images/slip-senior.jpg" alt="Senior washing hands safely" loading="lazy">
+            <img src="images/slip-senior.jpg" alt="Clean modern bathroom floor with good traction" loading="lazy">
             <div class="cat-gallery__caption">Senior-safe flooring</div>
           </div>
         </div>
@@ -1492,16 +1643,16 @@
       <div class="cat-section__layout">
         <div class="cat-gallery fade-up stagger-1">
           <div class="cat-gallery__item cat-gallery__item--wide">
-            <img src="images/grab-vanity.jpg" alt="Modern vanity with grab bar fixtures" loading="lazy">
-            <div class="cat-gallery__caption">Modern grab bar installation</div>
+            <img src="images/grab-wallfixture.jpg" alt="Horizontal grab bar mounted on white bathroom tile" loading="lazy">
+            <div class="cat-gallery__caption">Wall-mounted grab bar</div>
           </div>
           <div class="cat-gallery__item">
-            <img src="images/grab-wallfixture.jpg" alt="Bathroom wall-mounted support fixture" loading="lazy">
-            <div class="cat-gallery__caption">Shower grab bar</div>
-          </div>
-          <div class="cat-gallery__item">
-            <img src="images/grab-toilet.jpg" alt="Bathroom with toilet support area" loading="lazy">
+            <img src="images/grab-toilet.jpg" alt="Grab bar installed next to a modern toilet" loading="lazy">
             <div class="cat-gallery__caption">Toilet support rail</div>
+          </div>
+          <div class="cat-gallery__item">
+            <img src="images/grab-vanity.jpg" alt="Chrome shower support rail on white subway tile" loading="lazy">
+            <div class="cat-gallery__caption">Shower support rail</div>
           </div>
         </div>
 
@@ -1549,16 +1700,16 @@
 
         <div class="cat-gallery fade-up stagger-2">
           <div class="cat-gallery__item cat-gallery__item--wide">
-            <img src="images/light-modern.jpg" alt="Modern bathroom with LED mirror and bright lighting" loading="lazy">
-            <div class="cat-gallery__caption">Motion sensor lighting</div>
+            <img src="images/light-modern.jpg" alt="Modern bathroom with bright LED mirror lighting" loading="lazy">
+            <div class="cat-gallery__caption">Bright even lighting</div>
           </div>
           <div class="cat-gallery__item">
-            <img src="images/light-vanity.jpg" alt="LED-bulb vanity mirror" loading="lazy">
-            <div class="cat-gallery__caption">LED mirror light</div>
+            <img src="images/light-vanity.jpg" alt="Backlit LED vanity mirror" loading="lazy">
+            <div class="cat-gallery__caption">LED mirror</div>
           </div>
           <div class="cat-gallery__item">
-            <img src="images/light-dim.jpg" alt="Dim bathroom before lighting upgrade" loading="lazy">
-            <div class="cat-gallery__caption">Night safety lighting</div>
+            <img src="images/light-dim.jpg" alt="Motion-sensor night light in modern bathroom" loading="lazy">
+            <div class="cat-gallery__caption">Motion night light</div>
           </div>
         </div>
       </div>
@@ -1639,11 +1790,44 @@
             <div class="cat-gallery__caption">Toilet riser</div>
           </div>
           <div class="cat-gallery__item">
-            <img src="images/toilet-warm.jpg" alt="Warm-lit bathroom with toilet support" loading="lazy">
+            <img src="images/toilet-warm.jpg" alt="Bright comfort-height toilet with support rail" loading="lazy">
             <div class="cat-gallery__caption">Support rails</div>
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       6.5 BEFORE / AFTER — visual proof
+  ============================================================ -->
+  <section class="ba" id="before-after" aria-labelledby="ba-heading">
+    <div class="ba__inner">
+      <span class="ba__tag fade-up">Real results</span>
+      <h2 class="ba__title fade-up" id="ba-heading">From Unsafe to Safe</h2>
+      <p class="ba__copy fade-up">
+        Small bathroom changes can make a big difference in safety, comfort, and independence.
+      </p>
+      <div class="ba-compare">
+        <figure class="ba-compare__slot ba-compare__slot--before fade-up stagger-1">
+          <img src="images/before-unsafe.jpg" alt="Older bathroom with a tall tub step and no grab bars" loading="lazy">
+          <figcaption class="ba-compare__label">
+            <span class="ba-compare__label-dot" aria-hidden="true"></span>
+            Before
+          </figcaption>
+        </figure>
+        <figure class="ba-compare__slot ba-compare__slot--after fade-up stagger-2">
+          <img src="images/after-safe.jpg" alt="Modern curbless walk-in shower with step-free entry" loading="lazy">
+          <figcaption class="ba-compare__label">
+            <span class="ba-compare__label-dot" aria-hidden="true"></span>
+            After
+          </figcaption>
+        </figure>
+      </div>
+      <a href="tel:+15093197999" class="ba-cta fade-up" aria-label="Call Elyone Group to book a free safety check">
+        📞 Book a Free Safety Check
+      </a>
     </div>
   </section>
 
