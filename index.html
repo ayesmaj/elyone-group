@@ -232,6 +232,23 @@
       width: 100%;
     }
 
+    /* Large hero logo — shrinks on scroll via JS */
+    .hero__logo {
+      display: block;
+      margin: 0 auto 36px;
+      width: clamp(200px, 44vw, 320px);
+      height: auto;
+      filter:
+        drop-shadow(0 0 6px rgba(255,255,255,0.92))
+        drop-shadow(0 0 16px rgba(255,255,255,0.45))
+        drop-shadow(0 0 32px rgba(255,255,255,0.18));
+      will-change: transform, opacity;
+      transform-origin: center top;
+    }
+    @media (max-width: 480px) {
+      .hero__logo { width: 180px; margin-bottom: 28px; }
+    }
+
     .hero__badge {
       display: inline-block;
       background: rgba(232, 84, 26, 0.18);
@@ -1434,6 +1451,8 @@
   <section class="hero" aria-labelledby="hero-heading">
     <div class="hero__inner">
 
+      <img class="hero__logo" src="images/logo.png" alt="Elyone Group — Safety & Fall Prevention Experts" />
+
       <div class="hero__badge"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg> Fall Prevention Specialists</div>
 
       <h1 class="hero__h1" id="hero-heading">
@@ -2106,6 +2125,41 @@
           }
         });
       });
+
+
+      /* ----------------------------------------------------------
+         HERO LOGO SHRINK ON SCROLL
+         Scales the hero logo from 1.0 → 0.4 and fades to 0 as the
+         user scrolls through the first 60% of the hero height.
+         Uses requestAnimationFrame for 60fps + passive listener.
+      ---------------------------------------------------------- */
+      var heroLogo = document.querySelector('.hero__logo');
+      var heroSection = document.querySelector('.hero');
+
+      if (heroLogo && heroSection) {
+        var ticking = false;
+
+        function updateHeroLogo() {
+          var scrollY = window.scrollY || window.pageYOffset;
+          var heroH = heroSection.offsetHeight;
+          var progress = Math.min(scrollY / (heroH * 0.55), 1);
+          var scale = 1 - progress * 0.6;     // 1.0 → 0.4
+          var opacity = 1 - progress * 1.0;   // 1.0 → 0.0
+          heroLogo.style.transform = 'scale(' + Math.max(scale, 0.4) + ')';
+          heroLogo.style.opacity = Math.max(opacity, 0);
+          ticking = false;
+        }
+
+        window.addEventListener('scroll', function () {
+          if (!ticking) {
+            requestAnimationFrame(updateHeroLogo);
+            ticking = true;
+          }
+        }, { passive: true });
+
+        // Run once on load in case page starts mid-scroll
+        updateHeroLogo();
+      }
 
     })();
   </script>
