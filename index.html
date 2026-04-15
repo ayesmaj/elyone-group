@@ -1286,9 +1286,134 @@
       .ba-compare { grid-template-columns: 1fr; gap: 16px; }
       .ba-compare__slot { aspect-ratio: 4/3; }
     }
+
+    /* ============================================================
+       ICON SYSTEM — inline SVG sprite, Lucide-style stroke icons
+    ============================================================ */
+    .icon {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      vertical-align: -0.15em;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+      overflow: visible;
+    }
+    /* Block-level icon (for card headers where icon sits above text).
+       Inherits font-size from the parent icon wrapper span. */
+    .problem-card__icon .icon,
+    .solution-card__icon .icon,
+    .cat-card__icon .icon,
+    .who-card__icon .icon {
+      display: block;
+      width: 1em;
+      height: 1em;
+    }
+    /* Colored icon tints for card headers */
+    .problem-card__icon .icon { color: var(--orange); }
+    .solution-card__icon .icon { color: #ffb08a; }
+    .cat-card__icon .icon { color: var(--orange); }
+    .who-card__icon .icon { color: var(--navy); }
+    .checklist-row__icon .icon { color: var(--orange); }
+    /* Inline icons in buttons/badges pick up button text color via currentColor */
   </style>
 </head>
 <body>
+
+  <!-- ============================================================
+       ICON SPRITE — Lucide stroke icons, referenced via <use>
+  ============================================================ -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-phone" viewBox="0 0 24 24">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+      </symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24">
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+        <path d="M12 9v4"/>
+        <path d="M12 17h.01"/>
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24">
+        <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+        <path d="m9 12 2 2 4-4"/>
+      </symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24">
+        <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </symbol>
+      <symbol id="i-zap" viewBox="0 0 24 24">
+        <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>
+      </symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24">
+        <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/>
+        <circle cx="12" cy="10" r="3"/>
+      </symbol>
+      <symbol id="i-droplets" viewBox="0 0 24 24">
+        <path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.14 3 12.25c0 2.22 1.8 4.05 4 4.05z"/>
+        <path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"/>
+      </symbol>
+      <symbol id="i-droplet" viewBox="0 0 24 24">
+        <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>
+      </symbol>
+      <symbol id="i-hand" viewBox="0 0 24 24">
+        <path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/>
+        <path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/>
+        <path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/>
+        <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>
+      </symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24">
+        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+      </symbol>
+      <symbol id="i-sparkles" viewBox="0 0 24 24">
+        <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
+        <path d="M20 3v4"/>
+        <path d="M22 5h-4"/>
+        <path d="M4 17v2"/>
+        <path d="M5 18H3"/>
+      </symbol>
+      <symbol id="i-heart" viewBox="0 0 24 24">
+        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+      </symbol>
+      <symbol id="i-bulb" viewBox="0 0 24 24">
+        <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/>
+        <path d="M9 18h6"/>
+        <path d="M10 22h4"/>
+      </symbol>
+      <symbol id="i-chair" viewBox="0 0 24 24">
+        <path d="M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3"/>
+        <path d="M3 11v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v2H7v-2a2 2 0 0 0-4 0Z"/>
+        <path d="M5 18v2"/>
+        <path d="M19 18v2"/>
+      </symbol>
+      <symbol id="i-wrench" viewBox="0 0 24 24">
+        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+      </symbol>
+      <symbol id="i-door" viewBox="0 0 24 24">
+        <path d="M13 4h3a2 2 0 0 1 2 2v14"/>
+        <path d="M2 20h3"/>
+        <path d="M13 20h9"/>
+        <path d="M10 12v.01"/>
+        <path d="M13 4.562v16.157a1 1 0 0 1-1.242.97L5 20V5.562a2 2 0 0 1 1.515-1.94l4-1A2 2 0 0 1 13 4.562"/>
+      </symbol>
+      <symbol id="i-user" viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="5"/>
+        <path d="M20 21a8 8 0 1 0-16 0"/>
+      </symbol>
+      <symbol id="i-users" viewBox="0 0 24 24">
+        <path d="M18 21a8 8 0 0 0-16 0"/>
+        <circle cx="10" cy="8" r="5"/>
+        <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"/>
+      </symbol>
+      <symbol id="i-home" viewBox="0 0 24 24">
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </symbol>
+    </defs>
+  </svg>
 
   <!-- ============================================================
        1. FIXED NAV
@@ -1298,7 +1423,7 @@
       <img src="images/logo.png" alt="Elyone Group — Safety & Fall Prevention Experts" />
     </a>
     <a href="tel:+15093197999" class="nav__cta" aria-label="Call Elyone Group">
-      📞 (509) 319-7999
+      <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> (509) 319-7999
     </a>
   </nav>
 
@@ -1309,7 +1434,7 @@
   <section class="hero" aria-labelledby="hero-heading">
     <div class="hero__inner">
 
-      <div class="hero__badge">⚠️ Fall Prevention Specialists</div>
+      <div class="hero__badge"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg> Fall Prevention Specialists</div>
 
       <h1 class="hero__h1" id="hero-heading">
         Almost slipped<br />in your bathroom?
@@ -1332,7 +1457,7 @@
       <!-- Primary CTA -->
       <div class="hero__cta-wrap">
         <a href="tel:+15093197999" class="btn-orange" aria-label="Call now to book your free safety check">
-          📞 Call Now to Book Your Free Safety Check
+          <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> Call Now to Book Your Free Safety Check
         </a>
       </div>
 
@@ -1361,15 +1486,15 @@
   ============================================================ -->
   <section class="trust-bar" aria-label="Trust credentials">
     <div class="trust-bar__inner">
-      <div class="trust-badge fade-up">🛡️ Certified Safety Specialists</div>
+      <div class="trust-badge fade-up"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg> Certified Safety Specialists</div>
       <div class="trust-divider" aria-hidden="true"></div>
       <div class="trust-badge fade-up stagger-1">⭐ Trusted by 500+ Families</div>
       <div class="trust-divider" aria-hidden="true"></div>
-      <div class="trust-badge fade-up stagger-2">🔒 No Pressure. No Obligation.</div>
+      <div class="trust-badge fade-up stagger-2"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg> No Pressure. No Obligation.</div>
       <div class="trust-divider" aria-hidden="true"></div>
-      <div class="trust-badge fade-up stagger-3">⚡ Same-Day Solutions</div>
+      <div class="trust-badge fade-up stagger-3"><svg class="icon" aria-hidden="true"><use href="#i-zap"/></svg> Same-Day Solutions</div>
       <div class="trust-divider" aria-hidden="true"></div>
-      <div class="trust-badge fade-up stagger-4">📍 Local &amp; Family-Owned</div>
+      <div class="trust-badge fade-up stagger-4"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg> Local &amp; Family-Owned</div>
     </div>
   </section>
 
@@ -1390,22 +1515,22 @@
 
       <div class="problem__grid">
         <div class="problem-card fade-up stagger-1">
-          <span class="problem-card__icon">🚿</span>
+          <span class="problem-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-droplets"/></svg></span>
           <div class="problem-card__title">Stepping out of the shower</div>
           <p class="problem-card__text">Wet feet on a slippery floor — the most common moment a fall happens.</p>
         </div>
         <div class="problem-card fade-up stagger-2">
-          <span class="problem-card__icon">💧</span>
+          <span class="problem-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-droplet"/></svg></span>
           <div class="problem-card__title">Slippery floors</div>
           <p class="problem-card__text">Tile and vinyl become like ice when wet. Even a small amount of water is enough.</p>
         </div>
         <div class="problem-card fade-up stagger-3">
-          <span class="problem-card__icon">🤲</span>
+          <span class="problem-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-hand"/></svg></span>
           <div class="problem-card__title">Nothing to hold onto</div>
           <p class="problem-card__text">Without grab bars, there's no way to catch yourself when balance is lost.</p>
         </div>
         <div class="problem-card fade-up stagger-4">
-          <span class="problem-card__icon">🌙</span>
+          <span class="problem-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-moon"/></svg></span>
           <div class="problem-card__title">Low light at night</div>
           <p class="problem-card__text">A midnight trip to the bathroom in the dark is disorienting and dangerous.</p>
         </div>
@@ -1431,35 +1556,35 @@
 
       <div class="checklist-rows fade-up">
         <div class="checklist-row">
-          <span class="checklist-row__icon">🧹</span>
+          <span class="checklist-row__icon"><svg class="icon" aria-hidden="true"><use href="#i-sparkles"/></svg></span>
           <div class="checklist-row__content">
             <div class="checklist-row__title">Slippery floors</div>
             <div class="checklist-row__desc">Grip levels tested in wet conditions — we measure actual slip resistance.</div>
           </div>
         </div>
         <div class="checklist-row">
-          <span class="checklist-row__icon">🚿</span>
+          <span class="checklist-row__icon"><svg class="icon" aria-hidden="true"><use href="#i-droplets"/></svg></span>
           <div class="checklist-row__content">
             <div class="checklist-row__title">Shower &amp; bathtub entry risk</div>
             <div class="checklist-row__desc">Step height, balance points, and entry/exit technique assessed.</div>
           </div>
         </div>
         <div class="checklist-row">
-          <span class="checklist-row__icon">🤝</span>
+          <span class="checklist-row__icon"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg></span>
           <div class="checklist-row__content">
             <div class="checklist-row__title">Grab bar needs and placement</div>
             <div class="checklist-row__desc">We identify exactly where support is needed and the right hardware for your walls.</div>
           </div>
         </div>
         <div class="checklist-row">
-          <span class="checklist-row__icon">💡</span>
+          <span class="checklist-row__icon"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg></span>
           <div class="checklist-row__content">
             <div class="checklist-row__title">Lighting issues</div>
             <div class="checklist-row__desc">Especially night-time visibility — where dark spots create fall risk.</div>
           </div>
         </div>
         <div class="checklist-row">
-          <span class="checklist-row__icon">🪑</span>
+          <span class="checklist-row__icon"><svg class="icon" aria-hidden="true"><use href="#i-chair"/></svg></span>
           <div class="checklist-row__content">
             <div class="checklist-row__title">Toilet height and stability</div>
             <div class="checklist-row__desc">Sit-to-stand risk evaluated — one of the most overlooked hazards.</div>
@@ -1469,12 +1594,12 @@
 
       <!-- Reassurance box -->
       <div class="reassurance-box fade-up">
-        <p>🤝 No pressure. No obligation. Just clear answers about your bathroom safety — and a plan if you want one.</p>
+        <p><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg> No pressure. No obligation. Just clear answers about your bathroom safety — and a plan if you want one.</p>
       </div>
 
       <div class="safety-check__cta fade-up">
         <a href="tel:+15093197999" class="btn-orange" aria-label="Book your free safety check now">
-          📞 Book Your Free Check Now
+          <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> Book Your Free Check Now
         </a>
       </div>
     </div>
@@ -1493,22 +1618,22 @@
 
       <div class="solutions__grid">
         <div class="solution-card fade-up stagger-1">
-          <span class="solution-card__icon">🔩</span>
+          <span class="solution-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-wrench"/></svg></span>
           <div class="solution-card__title">Grab Bar Installation</div>
           <p class="solution-card__text">Strategically placed grab bars provide immediate confidence and support exactly when it's needed most.</p>
         </div>
         <div class="solution-card fade-up stagger-2">
-          <span class="solution-card__icon">🛡️</span>
+          <span class="solution-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg></span>
           <div class="solution-card__title">Anti-Slip Treatment</div>
           <p class="solution-card__text">Professional-grade treatment that dramatically increases grip on tile and vinyl — invisible and durable.</p>
         </div>
         <div class="solution-card fade-up stagger-3">
-          <span class="solution-card__icon">💡</span>
+          <span class="solution-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg></span>
           <div class="solution-card__title">Lighting Improvements</div>
           <p class="solution-card__text">Motion-activated night lights and targeted fixture upgrades that make every night trip safer.</p>
         </div>
         <div class="solution-card fade-up stagger-4">
-          <span class="solution-card__icon">🚪</span>
+          <span class="solution-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-door"/></svg></span>
           <div class="solution-card__title">Walk-In Shower Upgrade</div>
           <p class="solution-card__text">Optional — eliminates the step-over barrier entirely for those who want a long-term solution.</p>
         </div>
@@ -1516,7 +1641,7 @@
 
       <div class="solutions__badge fade-up">
         <div class="solutions__badge-inner">
-          ⚡ In many cases, we can improve safety the same day.
+          <svg class="icon" aria-hidden="true"><use href="#i-zap"/></svg> In many cases, we can improve safety the same day.
         </div>
       </div>
     </div>
@@ -1540,7 +1665,7 @@
             <img src="images/slip-wetdrain.jpg" alt="Close-up of modern non-slip shower floor" loading="lazy">
           </div>
           <div class="cat-card__body">
-            <span class="cat-card__icon">🛡️</span>
+            <span class="cat-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg></span>
             <div class="cat-card__name">Slip Protection</div>
             <div class="cat-card__desc">Grip coatings & anti-slip upgrades</div>
           </div>
@@ -1551,7 +1676,7 @@
             <img src="images/grab-wallfixture.jpg" alt="Horizontal grab bar mounted on white bathroom tile" loading="lazy">
           </div>
           <div class="cat-card__body">
-            <span class="cat-card__icon">🔩</span>
+            <span class="cat-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-wrench"/></svg></span>
             <div class="cat-card__name">Grab Bars</div>
             <div class="cat-card__desc">Support bars where you need them</div>
           </div>
@@ -1562,7 +1687,7 @@
             <img src="images/light-modern.jpg" alt="Bright modern bathroom with LED mirror" loading="lazy">
           </div>
           <div class="cat-card__body">
-            <span class="cat-card__icon">💡</span>
+            <span class="cat-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg></span>
             <div class="cat-card__name">Lighting</div>
             <div class="cat-card__desc">Motion lights & visibility upgrades</div>
           </div>
@@ -1573,7 +1698,7 @@
             <img src="images/shower-modern.jpg" alt="Modern walk-in shower" loading="lazy">
           </div>
           <div class="cat-card__body">
-            <span class="cat-card__icon">🚿</span>
+            <span class="cat-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-droplets"/></svg></span>
             <div class="cat-card__name">Walk-In Shower / Tub</div>
             <div class="cat-card__desc">Safe, step-free shower entry</div>
           </div>
@@ -1584,7 +1709,7 @@
             <img src="images/toilet-clean.jpg" alt="Clean modern bathroom with toilet" loading="lazy">
           </div>
           <div class="cat-card__body">
-            <span class="cat-card__icon">🪑</span>
+            <span class="cat-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-chair"/></svg></span>
             <div class="cat-card__name">Toilet Comfort & Support</div>
             <div class="cat-card__desc">Height & stability solutions</div>
           </div>
@@ -1602,7 +1727,7 @@
       <div class="cat-section__layout">
         <div class="cat-section__header fade-up">
           <div class="section-tag">Category 1</div>
-          <div class="cat-problem-pill">⚠️ Problem: slippery floors</div>
+          <div class="cat-problem-pill"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg> Problem: slippery floors</div>
           <h2 class="cat-section__h2">Slip Protection</h2>
           <p class="cat-section__solution">
             Wet tiles feel fine — until they're not. Our anti-slip treatments dramatically increase grip on bathroom floors without changing how they look.
@@ -1613,7 +1738,7 @@
             <li>Invisible anti-slip sealant</li>
             <li>Non-slip bath mats & installation</li>
           </ul>
-          <a href="tel:+15093197999" class="cat-btn">📞 Book Free Safety Check</a>
+          <a href="tel:+15093197999" class="cat-btn"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> Book Free Safety Check</a>
         </div>
 
         <div class="cat-gallery fade-up stagger-2">
@@ -1658,7 +1783,7 @@
 
         <div class="cat-section__header fade-up stagger-2">
           <div class="section-tag">Category 2</div>
-          <div class="cat-problem-pill">⚠️ Problem: nothing to hold onto</div>
+          <div class="cat-problem-pill"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg> Problem: nothing to hold onto</div>
           <h2 class="cat-section__h2">Grab Bars</h2>
           <p class="cat-section__solution">
             When balance fails, a solid grab bar is the difference between a close call and a serious fall. We install them exactly where you need support.
@@ -1669,7 +1794,7 @@
             <li>Entry & exit support</li>
             <li>Foldable / fold-down bars</li>
           </ul>
-          <a href="tel:+15093197999" class="cat-btn">📞 Book Free Safety Check</a>
+          <a href="tel:+15093197999" class="cat-btn"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> Book Free Safety Check</a>
         </div>
       </div>
     </div>
@@ -1684,7 +1809,7 @@
       <div class="cat-section__layout">
         <div class="cat-section__header fade-up">
           <div class="section-tag section-tag--light">Category 3</div>
-          <div class="cat-problem-pill">⚠️ Problem: poor night visibility</div>
+          <div class="cat-problem-pill"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg> Problem: poor night visibility</div>
           <h2 class="cat-section__h2">Lighting Improvements</h2>
           <p class="cat-section__solution">
             Most nighttime falls happen because people can't see where they're stepping. The right lighting makes every trip to the bathroom safer — automatically.
@@ -1695,7 +1820,7 @@
             <li>Illuminated mirror lighting</li>
             <li>Smart switches & voice control</li>
           </ul>
-          <a href="tel:+15093197999" class="cat-btn">📞 Book Free Safety Check</a>
+          <a href="tel:+15093197999" class="cat-btn"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> Book Free Safety Check</a>
         </div>
 
         <div class="cat-gallery fade-up stagger-2">
@@ -1740,7 +1865,7 @@
 
         <div class="cat-section__header fade-up stagger-2">
           <div class="section-tag">Category 4</div>
-          <div class="cat-problem-pill">⚠️ Problem: stepping over the tub</div>
+          <div class="cat-problem-pill"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg> Problem: stepping over the tub</div>
           <h2 class="cat-section__h2">Walk-In Shower & Tub</h2>
           <p class="cat-section__solution">
             The single biggest bathroom risk for seniors is stepping over a tub ledge. A curbless walk-in shower removes that risk entirely.
@@ -1751,7 +1876,7 @@
             <li>Built-in shower bench / seating</li>
             <li>Handheld showerhead system</li>
           </ul>
-          <a href="tel:+15093197999" class="cat-btn">📞 Book Free Safety Check</a>
+          <a href="tel:+15093197999" class="cat-btn"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> Book Free Safety Check</a>
         </div>
       </div>
     </div>
@@ -1766,7 +1891,7 @@
       <div class="cat-section__layout">
         <div class="cat-section__header fade-up">
           <div class="section-tag">Category 5</div>
-          <div class="cat-problem-pill">⚠️ Problem: hard to sit and stand</div>
+          <div class="cat-problem-pill"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg> Problem: hard to sit and stand</div>
           <h2 class="cat-section__h2">Toilet Comfort & Support</h2>
           <p class="cat-section__solution">
             Getting up from a low toilet is one of the most physically demanding movements seniors do daily. The right height and support make it effortless and safe.
@@ -1777,7 +1902,7 @@
             <li>Grab bars beside the toilet</li>
             <li>Fold-down support frames</li>
           </ul>
-          <a href="tel:+15093197999" class="cat-btn">📞 Book Free Safety Check</a>
+          <a href="tel:+15093197999" class="cat-btn"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> Book Free Safety Check</a>
         </div>
 
         <div class="cat-gallery fade-up stagger-2">
@@ -1826,7 +1951,7 @@
         </figure>
       </div>
       <a href="tel:+15093197999" class="ba-cta fade-up" aria-label="Call Elyone Group to book a free safety check">
-        📞 Book a Free Safety Check
+        <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> Book a Free Safety Check
       </a>
     </div>
   </section>
@@ -1844,21 +1969,21 @@
 
       <div class="who__cards">
         <div class="who-card fade-up stagger-1">
-          <div class="who-card__icon">👴</div>
+          <div class="who-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-user"/></svg></div>
           <div>
             <div class="who-card__title">Seniors Who Value Independence</div>
             <p class="who-card__text">Stay safe and confident in your own home — without relying on others for daily tasks.</p>
           </div>
         </div>
         <div class="who-card fade-up stagger-2">
-          <div class="who-card__icon">👨‍👩‍👧</div>
+          <div class="who-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg></div>
           <div>
             <div class="who-card__title">Families of Aging Loved Ones</div>
             <p class="who-card__text">Give yourself and your family peace of mind knowing their bathroom is as safe as possible.</p>
           </div>
         </div>
         <div class="who-card fade-up stagger-3">
-          <div class="who-card__icon">🏠</div>
+          <div class="who-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-home"/></svg></div>
           <div>
             <div class="who-card__title">Anyone With Bathroom Concerns</div>
             <p class="who-card__text">Had a close call? Noticed something doesn't feel right? We'll give you honest answers.</p>
@@ -1882,7 +2007,7 @@
       </p>
       <div class="fade-up">
         <a href="tel:+15093197999" class="btn-orange" aria-label="Call now to book your free bathroom safety check">
-          📞 Call Now to Book Your FREE Bathroom Safety Check
+          <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> Call Now to Book Your FREE Bathroom Safety Check
         </a>
       </div>
       <div class="fade-up">
@@ -1901,7 +2026,7 @@
     <div class="footer__logo">
       <img src="images/logo.png" alt="Elyone Group — Safety & Fall Prevention Experts" />
     </div>
-    <a href="tel:+15093197999" class="footer__phone">📞 (509) 319-7999</a>
+    <a href="tel:+15093197999" class="footer__phone"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> (509) 319-7999</a>
     <p class="footer__copy">© 2026 Elyone Group. All rights reserved.</p>
   </footer>
 
@@ -1911,7 +2036,7 @@
   ============================================================ -->
   <div class="sticky-bar" id="sticky-bar" role="complementary" aria-label="Call to action">
     <a href="tel:+15093197999" class="btn-orange" aria-label="Call now — free safety check">
-      📞 Call Now — Free Safety Check
+      <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> Call Now — Free Safety Check
     </a>
   </div>
 
