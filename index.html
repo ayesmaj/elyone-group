@@ -236,17 +236,13 @@
     .hero__logo {
       display: block;
       margin: 0 auto 36px;
-      width: clamp(200px, 44vw, 320px);
+      width: clamp(280px, 58vw, 480px);
       height: auto;
-      filter:
-        drop-shadow(0 0 6px rgba(255,255,255,0.92))
-        drop-shadow(0 0 16px rgba(255,255,255,0.45))
-        drop-shadow(0 0 32px rgba(255,255,255,0.18));
       will-change: transform, opacity;
       transform-origin: center top;
     }
     @media (max-width: 480px) {
-      .hero__logo { width: 180px; margin-bottom: 28px; }
+      .hero__logo { width: 260px; margin-bottom: 28px; }
     }
 
     .hero__badge {
