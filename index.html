@@ -464,13 +464,25 @@
     .problem-card {
       background: var(--white);
       border-radius: var(--radius);
-      padding: 28px 24px;
+      padding: 0;
       box-shadow: var(--shadow-card);
       transition: transform var(--transition), box-shadow var(--transition);
+      overflow: hidden;
     }
     .problem-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 8px 36px rgba(26,46,74,0.14);
+    }
+
+    .problem-card__img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+    }
+
+    .problem-card__body {
+      padding: 24px 24px 28px;
     }
 
     .problem-card__icon {
@@ -1530,24 +1542,36 @@
 
       <div class="problem__grid">
         <div class="problem-card fade-up stagger-1">
-          <span class="problem-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-droplets"/></svg></span>
-          <div class="problem-card__title">Stepping out of the shower</div>
-          <p class="problem-card__text">Wet feet on a slippery floor — the most common moment a fall happens.</p>
+          <img class="problem-card__img" src="images/problem-shower.jpg" alt="Wet feet stepping out of a shower onto slippery bathroom tile" loading="lazy" />
+          <div class="problem-card__body">
+            <span class="problem-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-droplets"/></svg></span>
+            <div class="problem-card__title">Stepping out of the shower</div>
+            <p class="problem-card__text">Wet feet on a slippery floor — the most common moment a fall happens.</p>
+          </div>
         </div>
         <div class="problem-card fade-up stagger-2">
-          <span class="problem-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-droplet"/></svg></span>
-          <div class="problem-card__title">Slippery floors</div>
-          <p class="problem-card__text">Tile and vinyl become like ice when wet. Even a small amount of water is enough.</p>
+          <img class="problem-card__img" src="images/problem-slippery.jpg" alt="Wet bathroom floor with water puddle and slipper — slip hazard" loading="lazy" />
+          <div class="problem-card__body">
+            <span class="problem-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-droplet"/></svg></span>
+            <div class="problem-card__title">Slippery floors</div>
+            <p class="problem-card__text">Tile and vinyl become like ice when wet. Even a small amount of water is enough.</p>
+          </div>
         </div>
         <div class="problem-card fade-up stagger-3">
-          <span class="problem-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-hand"/></svg></span>
-          <div class="problem-card__title">Nothing to hold onto</div>
-          <p class="problem-card__text">Without grab bars, there's no way to catch yourself when balance is lost.</p>
+          <img class="problem-card__img" src="images/problem-nohold.jpg" alt="Person losing balance and falling in a bathroom with nothing to grab" loading="lazy" />
+          <div class="problem-card__body">
+            <span class="problem-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-hand"/></svg></span>
+            <div class="problem-card__title">Nothing to hold onto</div>
+            <p class="problem-card__text">Without grab bars, there's no way to catch yourself when balance is lost.</p>
+          </div>
         </div>
         <div class="problem-card fade-up stagger-4">
-          <span class="problem-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-moon"/></svg></span>
-          <div class="problem-card__title">Low light at night</div>
-          <p class="problem-card__text">A midnight trip to the bathroom in the dark is disorienting and dangerous.</p>
+          <img class="problem-card__img" src="images/problem-dark.jpg" alt="Person navigating a dark bathroom at night with minimal light" loading="lazy" />
+          <div class="problem-card__body">
+            <span class="problem-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-moon"/></svg></span>
+            <div class="problem-card__title">Low light at night</div>
+            <p class="problem-card__text">A midnight trip to the bathroom in the dark is disorienting and dangerous.</p>
+          </div>
         </div>
       </div>
 
