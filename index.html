@@ -196,184 +196,208 @@
     .nav__cta:hover { background: var(--orange-light); transform: translateY(-1px); }
 
     /* ============================================================
-       2. HERO SECTION
+       2. HERO SECTION — Premium Cinematic
     ============================================================ */
     .hero {
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 120px 24px 80px;
       position: relative;
       overflow: hidden;
-
-      /* Real bathroom photo + deep navy overlay for legibility */
-      background:
-        radial-gradient(ellipse at 60% 40%, rgba(232,84,26,0.18) 0%, transparent 60%),
-        linear-gradient(160deg, rgba(13,31,53,0.88) 0%, rgba(26,58,92,0.78) 50%, rgba(10,21,37,0.92) 100%),
-        url('images/hero.jpg') center/cover no-repeat;
+      padding: 100px 24px 60px;
     }
 
-    /* Subtle texture overlay */
-    .hero::before {
+    /* Cinematic background image — Ken Burns slow zoom */
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      background: url('images/hero-danger.jpg') 65% center/cover no-repeat;
+      will-change: transform;
+      animation: heroZoom 20s ease-out forwards;
+    }
+    @keyframes heroZoom {
+      from { transform: scale(1); }
+      to   { transform: scale(1.08); }
+    }
+
+    /* Left-gradient overlay: text side dark, image side clearly visible */
+    .hero__overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg,
+          rgba(9,21,37,0.95) 0%,
+          rgba(9,21,37,0.88) 25%,
+          rgba(9,21,37,0.55) 48%,
+          rgba(9,21,37,0.22) 68%,
+          rgba(9,21,37,0.08) 100%
+        );
+      pointer-events: none;
+    }
+
+    /* Bottom vignette for depth */
+    .hero::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse at 30% 70%, rgba(26,58,92,0.5) 0%, transparent 55%);
+      background: linear-gradient(to top, rgba(9,21,37,0.5) 0%, transparent 35%);
       pointer-events: none;
     }
 
     .hero__inner {
       position: relative;
-      z-index: 1;
-      text-align: center;
-      max-width: var(--max-w);
+      z-index: 2;
+      max-width: 1100px;
       width: 100%;
+      margin: 0 auto;
+      text-align: left;
     }
 
-    /* Large hero logo — shrinks on scroll via JS */
+    .hero__content {
+      max-width: 580px;
+    }
+
+    /* Logo — smaller in premium hero, still shrinks on scroll */
     .hero__logo {
       display: block;
-      margin: 0 auto 36px;
-      width: clamp(280px, 58vw, 480px);
+      width: clamp(160px, 28vw, 240px);
       height: auto;
+      margin-bottom: 32px;
       will-change: transform, opacity;
-      transform-origin: center top;
-    }
-    @media (max-width: 480px) {
-      .hero__logo { width: 260px; margin-bottom: 28px; }
-    }
-
-    .hero__badge {
-      display: inline-block;
-      background: rgba(232, 84, 26, 0.18);
-      border: 1px solid rgba(232, 84, 26, 0.35);
-      color: #ffb08a;
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 8px 18px;
-      border-radius: var(--radius-pill);
-      margin-bottom: 28px;
-      animation: fadeUp 0.6s ease both;
+      transform-origin: left top;
+      opacity: 0;
+      animation: heroFadeIn 0.8s 0.1s ease both;
     }
 
-    .hero__h1 {
-      font-size: clamp(2.2rem, 6vw, 3.6rem);
-      font-weight: 900;
-      color: var(--white);
-      line-height: 1.12;
-      letter-spacing: -0.03em;
-      margin-bottom: 20px;
-      animation: fadeUp 0.7s 0.1s ease both;
-    }
-
-    .hero__sub {
-      font-size: clamp(1.05rem, 2.5vw, 1.25rem);
-      color: var(--text-muted);
-      max-width: 620px;
-      margin: 0 auto 40px;
-      font-weight: 400;
-      line-height: 1.55;
-      animation: fadeUp 0.7s 0.2s ease both;
-    }
-
-    /* Frosted glass offer box */
-    .hero__offer {
-      background: rgba(255,255,255,0.07);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.14);
-      border-radius: var(--radius);
-      padding: 28px 32px;
-      max-width: 500px;
-      margin: 0 auto 36px;
-      text-align: left;
-      animation: fadeUp 0.7s 0.3s ease both;
-    }
-
-    .hero__offer-title {
-      font-size: clamp(1.15rem, 3vw, 1.35rem);
-      font-weight: 800;
-      color: var(--orange);
-      margin-bottom: 16px;
-      text-align: center;
-    }
-
-    .hero__checklist {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .hero__checklist li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: rgba(255,255,255,0.88);
-      font-size: 0.97rem;
-      font-weight: 500;
-    }
-    .hero__checklist li::before {
-      content: '✓';
+    /* Tagline / eyebrow */
+    .hero__eyebrow {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      width: 22px;
-      height: 22px;
-      min-width: 22px;
-      background: rgba(232,84,26,0.25);
-      border: 1px solid rgba(232,84,26,0.5);
-      border-radius: 50%;
+      gap: 8px;
+      background: rgba(232,84,26,0.15);
+      border: 1px solid rgba(232,84,26,0.3);
       color: #ffb08a;
-      font-size: 0.72rem;
-      font-weight: 800;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 7px 16px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: heroFadeIn 0.7s 0.2s ease both;
     }
+    .hero__eyebrow .icon { width: 14px; height: 14px; }
 
-    .hero__cta-wrap {
-      animation: fadeUp 0.7s 0.4s ease both;
-      margin-bottom: 56px;
-    }
-
-    .hero__cta-wrap .btn-orange {
-      font-size: clamp(1rem, 2.5vw, 1.15rem);
-      padding: 20px 40px;
-      width: 100%;
-      max-width: 480px;
-    }
-
-    /* Trust stats row */
-    .hero__stats {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
-      flex-wrap: wrap;
-      animation: fadeUp 0.7s 0.5s ease both;
-    }
-
-    .hero__stat {
-      text-align: center;
-      padding: 12px 24px;
-      border-right: 1px solid rgba(255,255,255,0.12);
-    }
-    .hero__stat:last-child { border-right: none; }
-
-    .hero__stat-num {
-      font-size: clamp(1.3rem, 3vw, 1.6rem);
+    /* Main headline */
+    .hero__h1 {
+      font-size: clamp(2.4rem, 6.5vw, 3.8rem);
       font-weight: 900;
       color: var(--white);
-      line-height: 1;
-      margin-bottom: 4px;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: heroFadeIn 0.8s 0.3s ease both;
     }
-    .hero__stat-label {
-      font-size: 0.78rem;
-      color: var(--text-muted);
+    .hero__h1 em {
+      font-style: normal;
+      color: var(--orange);
+    }
+
+    /* Subheadline */
+    .hero__sub {
+      font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+      color: rgba(255,255,255,0.78);
+      max-width: 480px;
+      line-height: 1.6;
+      margin-bottom: 36px;
+      font-weight: 400;
+      opacity: 0;
+      animation: heroFadeIn 0.8s 0.45s ease both;
+    }
+
+    /* CTA button row */
+    .hero__cta-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: heroFadeIn 0.8s 0.55s ease both;
+    }
+    .hero__cta-row .btn-orange {
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      padding: 18px 36px;
+      box-shadow: 0 8px 40px rgba(232,84,26,0.45);
+    }
+    .hero__cta-secondary {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.88rem;
       font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .hero__cta-secondary:hover { color: #fff; }
+    .hero__cta-secondary .icon { width: 16px; height: 16px; }
+
+    /* 5-star trust strip */
+    .hero__trust {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: heroFadeIn 0.8s 0.7s ease both;
+    }
+
+    .hero__stars {
+      display: flex;
+      gap: 3px;
+    }
+    .hero__stars svg {
+      width: 18px;
+      height: 18px;
+      fill: #f5a623;
+      filter: drop-shadow(0 1px 3px rgba(245,166,35,0.4));
+    }
+
+    .hero__trust-text {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.6);
+      font-weight: 500;
+    }
+    .hero__trust-text strong {
+      color: rgba(255,255,255,0.9);
+    }
+
+    /* Hero-specific fade-in keyframe */
+    @keyframes heroFadeIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+      .hero { min-height: 90vh; padding: 100px 20px 50px; }
+      .hero__overlay {
+        background:
+          linear-gradient(180deg,
+            rgba(9,21,37,0.92) 0%,
+            rgba(9,21,37,0.75) 50%,
+            rgba(9,21,37,0.55) 100%
+          );
+      }
+      .hero__content { max-width: 100%; }
+      .hero__h1 { font-size: clamp(2rem, 8vw, 2.6rem); }
+    }
+    @media (max-width: 480px) {
+      .hero__logo { width: 180px; }
+      .hero__cta-row .btn-orange { width: 100%; text-align: center; }
     }
 
     /* ============================================================
@@ -554,14 +578,30 @@
 
     .checklist-row {
       display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      padding: 20px 24px;
+      align-items: stretch;
+      gap: 0;
       background: var(--white);
       border-bottom: 1px solid #eef1f6;
     }
     .checklist-row:last-child { border-bottom: none; }
     .checklist-row:nth-child(even) { background: var(--bg-light); }
+
+    /* Illustration thumbnail */
+    .checklist-row__img {
+      width: 140px;
+      min-height: 100px;
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+
+    .checklist-row__body {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 20px 24px;
+      flex: 1;
+      min-width: 0;
+    }
 
     .checklist-row__icon {
       font-size: 1.5rem;
@@ -579,6 +619,11 @@
       font-size: 0.875rem;
       color: #5a6e87;
       line-height: 1.5;
+    }
+
+    @media (max-width: 600px) {
+      .checklist-row { flex-direction: column; }
+      .checklist-row__img { width: 100%; height: 160px; }
     }
 
     /* Reassurance box */
@@ -655,7 +700,8 @@
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.10);
       border-radius: var(--radius);
-      padding: 28px 24px;
+      padding: 0;
+      overflow: hidden;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       transition: transform var(--transition), background var(--transition);
@@ -663,6 +709,17 @@
     .solution-card:hover {
       transform: translateY(-4px);
       background: rgba(255,255,255,0.10);
+    }
+
+    .solution-card__img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+    }
+
+    .solution-card__body {
+      padding: 24px 24px 28px;
     }
 
     .solution-card__icon {
@@ -1457,53 +1514,50 @@
        2. HERO SECTION
   ============================================================ -->
   <section class="hero" aria-labelledby="hero-heading">
+    <!-- Cinematic background with Ken Burns zoom -->
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="hero__overlay" aria-hidden="true"></div>
+
     <div class="hero__inner">
+      <div class="hero__content">
 
-      <img class="hero__logo" src="images/logo.png" alt="Elyone Group — Safety & Fall Prevention Experts" />
+        <img class="hero__logo" src="images/logo.png" alt="Elyone Group — Safety & Fall Prevention Experts" />
 
-      <div class="hero__badge"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg> Fall Prevention Specialists</div>
-
-      <h1 class="hero__h1" id="hero-heading">
-        Almost slipped<br />in your bathroom?
-      </h1>
-
-      <p class="hero__sub">
-        Most falls happen at home — and the bathroom is the <strong style="color:#fff;">#1 danger zone.</strong>
-      </p>
-
-      <!-- Frosted glass offer box -->
-      <div class="hero__offer" role="region" aria-label="Free offer details">
-        <div class="hero__offer-title">FREE Bathroom Safety Check</div>
-        <ul class="hero__checklist">
-          <li>No obligation</li>
-          <li>Takes 20–30 minutes</li>
-          <li>Same-day solutions available</li>
-        </ul>
-      </div>
-
-      <!-- Primary CTA -->
-      <div class="hero__cta-wrap">
-        <a href="tel:+15093197999" class="btn-orange" aria-label="Call now to book your free safety check">
-          <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> Call Now to Book Your Free Safety Check
-        </a>
-      </div>
-
-      <!-- Trust stats row -->
-      <div class="hero__stats" aria-label="Trust statistics">
-        <div class="hero__stat">
-          <div class="hero__stat-num">500+</div>
-          <div class="hero__stat-label">Families Protected</div>
+        <div class="hero__eyebrow">
+          <svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg> Fall Prevention Specialists
         </div>
-        <div class="hero__stat">
-          <div class="hero__stat-num">Same-Day</div>
-          <div class="hero__stat-label">Available</div>
-        </div>
-        <div class="hero__stat">
-          <div class="hero__stat-num">Certified</div>
-          <div class="hero__stat-label">Specialists</div>
-        </div>
-      </div>
 
+        <h1 class="hero__h1" id="hero-heading">
+          One slip can change<br /><em>everything.</em>
+        </h1>
+
+        <p class="hero__sub">
+          Every year, 1 in 4 seniors falls at home — and the bathroom is the most dangerous room. We make it safe, fast, and affordable.
+        </p>
+
+        <!-- CTA row -->
+        <div class="hero__cta-row">
+          <a href="tel:+15093197999" class="btn-orange" aria-label="Book your free safety check">
+            <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> Book Your Free Safety Check
+          </a>
+          <a href="#solutions" class="hero__cta-secondary">
+            <svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg> See Our Solutions
+          </a>
+        </div>
+
+        <!-- 5-star trust strip -->
+        <div class="hero__trust" aria-label="Customer trust rating">
+          <div class="hero__stars" aria-label="5 out of 5 stars">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1l2.39 5.64L18 7.24l-4 4.13L15 18 10 14.77 5 18l1-6.63-4-4.13 5.61-.6z"/></svg>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1l2.39 5.64L18 7.24l-4 4.13L15 18 10 14.77 5 18l1-6.63-4-4.13 5.61-.6z"/></svg>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1l2.39 5.64L18 7.24l-4 4.13L15 18 10 14.77 5 18l1-6.63-4-4.13 5.61-.6z"/></svg>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1l2.39 5.64L18 7.24l-4 4.13L15 18 10 14.77 5 18l1-6.63-4-4.13 5.61-.6z"/></svg>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1l2.39 5.64L18 7.24l-4 4.13L15 18 10 14.77 5 18l1-6.63-4-4.13 5.61-.6z"/></svg>
+          </div>
+          <span class="hero__trust-text"><strong>500+ families</strong> protected &middot; Same-day service</span>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -1595,38 +1649,53 @@
 
       <div class="checklist-rows fade-up">
         <div class="checklist-row">
-          <span class="checklist-row__icon"><svg class="icon" aria-hidden="true"><use href="#i-sparkles"/></svg></span>
-          <div class="checklist-row__content">
-            <div class="checklist-row__title">Slippery floors</div>
-            <div class="checklist-row__desc">Grip levels tested in wet conditions — we measure actual slip resistance.</div>
+          <img class="checklist-row__img" src="images/check-slippery.jpg" alt="Hand touching wet bathroom floor — slip hazard" loading="lazy" />
+          <div class="checklist-row__body">
+            <span class="checklist-row__icon"><svg class="icon" aria-hidden="true"><use href="#i-sparkles"/></svg></span>
+            <div class="checklist-row__content">
+              <div class="checklist-row__title">Slippery floors</div>
+              <div class="checklist-row__desc">Grip levels tested in wet conditions — we measure actual slip resistance.</div>
+            </div>
           </div>
         </div>
         <div class="checklist-row">
-          <span class="checklist-row__icon"><svg class="icon" aria-hidden="true"><use href="#i-droplets"/></svg></span>
-          <div class="checklist-row__content">
-            <div class="checklist-row__title">Shower &amp; bathtub entry risk</div>
-            <div class="checklist-row__desc">Step height, balance points, and entry/exit technique assessed.</div>
+          <img class="checklist-row__img" src="images/check-shower.jpg" alt="Wet foot stepping over shower ledge — entry risk" loading="lazy" />
+          <div class="checklist-row__body">
+            <span class="checklist-row__icon"><svg class="icon" aria-hidden="true"><use href="#i-droplets"/></svg></span>
+            <div class="checklist-row__content">
+              <div class="checklist-row__title">Shower &amp; bathtub entry risk</div>
+              <div class="checklist-row__desc">Step height, balance points, and entry/exit technique assessed.</div>
+            </div>
           </div>
         </div>
         <div class="checklist-row">
-          <span class="checklist-row__icon"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg></span>
-          <div class="checklist-row__content">
-            <div class="checklist-row__title">Grab bar needs and placement</div>
-            <div class="checklist-row__desc">We identify exactly where support is needed and the right hardware for your walls.</div>
+          <img class="checklist-row__img" src="images/check-grabbars.jpg" alt="Grab bar placement diagram showing optimal positions" loading="lazy" />
+          <div class="checklist-row__body">
+            <span class="checklist-row__icon"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg></span>
+            <div class="checklist-row__content">
+              <div class="checklist-row__title">Grab bar needs and placement</div>
+              <div class="checklist-row__desc">We identify exactly where support is needed and the right hardware for your walls.</div>
+            </div>
           </div>
         </div>
         <div class="checklist-row">
-          <span class="checklist-row__icon"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg></span>
-          <div class="checklist-row__content">
-            <div class="checklist-row__title">Lighting issues</div>
-            <div class="checklist-row__desc">Especially night-time visibility — where dark spots create fall risk.</div>
+          <img class="checklist-row__img" src="images/check-lighting.jpg" alt="Dark bathroom at night — poor visibility fall risk" loading="lazy" />
+          <div class="checklist-row__body">
+            <span class="checklist-row__icon"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg></span>
+            <div class="checklist-row__content">
+              <div class="checklist-row__title">Lighting issues</div>
+              <div class="checklist-row__desc">Especially night-time visibility — where dark spots create fall risk.</div>
+            </div>
           </div>
         </div>
         <div class="checklist-row">
-          <span class="checklist-row__icon"><svg class="icon" aria-hidden="true"><use href="#i-chair"/></svg></span>
-          <div class="checklist-row__content">
-            <div class="checklist-row__title">Toilet height and stability</div>
-            <div class="checklist-row__desc">Sit-to-stand risk evaluated — one of the most overlooked hazards.</div>
+          <img class="checklist-row__img" src="images/check-toilet.jpg" alt="Person using grab bar to stand from toilet — stability support" loading="lazy" />
+          <div class="checklist-row__body">
+            <span class="checklist-row__icon"><svg class="icon" aria-hidden="true"><use href="#i-chair"/></svg></span>
+            <div class="checklist-row__content">
+              <div class="checklist-row__title">Toilet height and stability</div>
+              <div class="checklist-row__desc">Sit-to-stand risk evaluated — one of the most overlooked hazards.</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1657,24 +1726,36 @@
 
       <div class="solutions__grid">
         <div class="solution-card fade-up stagger-1">
-          <span class="solution-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-wrench"/></svg></span>
-          <div class="solution-card__title">Grab Bar Installation</div>
-          <p class="solution-card__text">Strategically placed grab bars provide immediate confidence and support exactly when it's needed most.</p>
+          <img class="solution-card__img" src="images/sol-grabbars.jpg" alt="Modern bathroom with professionally installed grab bars and shower seat" loading="lazy" />
+          <div class="solution-card__body">
+            <span class="solution-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-wrench"/></svg></span>
+            <div class="solution-card__title">Grab Bar Installation</div>
+            <p class="solution-card__text">Strategically placed grab bars provide immediate confidence and support exactly when it's needed most.</p>
+          </div>
         </div>
         <div class="solution-card fade-up stagger-2">
-          <span class="solution-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg></span>
-          <div class="solution-card__title">Anti-Slip Treatment</div>
-          <p class="solution-card__text">Professional-grade treatment that dramatically increases grip on tile and vinyl — invisible and durable.</p>
+          <img class="solution-card__img" src="images/sol-antislip.jpg" alt="Wet bathroom floor with water puddle — anti-slip treatment prevents this" loading="lazy" />
+          <div class="solution-card__body">
+            <span class="solution-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg></span>
+            <div class="solution-card__title">Anti-Slip Treatment</div>
+            <p class="solution-card__text">Professional-grade treatment that dramatically increases grip on tile and vinyl — invisible and durable.</p>
+          </div>
         </div>
         <div class="solution-card fade-up stagger-3">
-          <span class="solution-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg></span>
-          <div class="solution-card__title">Lighting Improvements</div>
-          <p class="solution-card__text">Motion-activated night lights and targeted fixture upgrades that make every night trip safer.</p>
+          <img class="solution-card__img" src="images/sol-lighting.jpg" alt="Bathroom with balanced lighting — LED mirror and targeted fixtures" loading="lazy" />
+          <div class="solution-card__body">
+            <span class="solution-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg></span>
+            <div class="solution-card__title">Lighting Improvements</div>
+            <p class="solution-card__text">Motion-activated night lights and targeted fixture upgrades that make every night trip safer.</p>
+          </div>
         </div>
         <div class="solution-card fade-up stagger-4">
-          <span class="solution-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-door"/></svg></span>
-          <div class="solution-card__title">Walk-In Shower Upgrade</div>
-          <p class="solution-card__text">Optional — eliminates the step-over barrier entirely for those who want a long-term solution.</p>
+          <img class="solution-card__img" src="images/sol-walkin.jpg" alt="Barrier-free walk-in shower with glass door — no step-over needed" loading="lazy" />
+          <div class="solution-card__body">
+            <span class="solution-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-door"/></svg></span>
+            <div class="solution-card__title">Walk-In Shower Upgrade</div>
+            <p class="solution-card__text">Optional — eliminates the step-over barrier entirely for those who want a long-term solution.</p>
+          </div>
         </div>
       </div>
 
@@ -2148,37 +2229,43 @@
 
 
       /* ----------------------------------------------------------
-         HERO LOGO SHRINK ON SCROLL
-         Scales the hero logo from 1.0 → 0.4 and fades to 0 as the
-         user scrolls through the first 60% of the hero height.
-         Uses requestAnimationFrame for 60fps + passive listener.
+         HERO PARALLAX + CONTENT FADE
+         Background moves slower than scroll (parallax).
+         Content fades out as user scrolls past the hero.
       ---------------------------------------------------------- */
-      var heroLogo = document.querySelector('.hero__logo');
+      var heroBg = document.querySelector('.hero__bg');
+      var heroContent = document.querySelector('.hero__content');
       var heroSection = document.querySelector('.hero');
 
-      if (heroLogo && heroSection) {
-        var ticking = false;
+      if (heroBg && heroSection) {
+        var heroTicking = false;
 
-        function updateHeroLogo() {
+        function updateHeroParallax() {
           var scrollY = window.scrollY || window.pageYOffset;
           var heroH = heroSection.offsetHeight;
-          var progress = Math.min(scrollY / (heroH * 0.55), 1);
-          var scale = 1 - progress * 0.6;     // 1.0 → 0.4
-          var opacity = 1 - progress * 1.0;   // 1.0 → 0.0
-          heroLogo.style.transform = 'scale(' + Math.max(scale, 0.4) + ')';
-          heroLogo.style.opacity = Math.max(opacity, 0);
-          ticking = false;
+          var progress = Math.min(scrollY / heroH, 1);
+
+          // Background parallax — moves at 40% of scroll speed
+          heroBg.style.transform = 'scale(' + (1 + progress * 0.08) + ') translateY(' + (scrollY * 0.4) + 'px)';
+
+          // Content fade-out
+          if (heroContent) {
+            var fadeProgress = Math.min(scrollY / (heroH * 0.5), 1);
+            heroContent.style.opacity = Math.max(1 - fadeProgress, 0);
+            heroContent.style.transform = 'translateY(' + (scrollY * 0.15) + 'px)';
+          }
+
+          heroTicking = false;
         }
 
         window.addEventListener('scroll', function () {
-          if (!ticking) {
-            requestAnimationFrame(updateHeroLogo);
-            ticking = true;
+          if (!heroTicking) {
+            requestAnimationFrame(updateHeroParallax);
+            heroTicking = true;
           }
         }, { passive: true });
 
-        // Run once on load in case page starts mid-scroll
-        updateHeroLogo();
+        updateHeroParallax();
       }
 
     })();
